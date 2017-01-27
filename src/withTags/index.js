@@ -10,19 +10,6 @@ type Tag = {
   component: (Array<string> | string) => React.Element<any> 
 }
 
-function DefaultComponent({ children }){
-  return <span>{children}</span>;
-}
-
-function withTags(text: string, { tags }: Options): Array<React.Element<any>> {
-  return _getSlices(text, tags).map(({ value, tag }, index) => {
-    if(tag !== undefined){
-      return tags[tag].component(value, index);
-    }
-    return <DefaultComponent key={index}>{value}</DefaultComponent>;
-  });
-}
-
 type Slice = {
   value: string | Array<string>,
   range: Range,
@@ -38,6 +25,19 @@ type Range = {
   start: number,
   end: number
 };
+
+function DefaultComponent({ children }){
+  return <span>{children}</span>;
+}
+
+function withTags(text: string, { tags }: Options): Array<React.Element<any>> {
+  return _getSlices(text, tags).map(({ value, tag }, index) => {
+    if(tag !== undefined){
+      return tags[tag].component(value, index);
+    }
+    return <DefaultComponent key={index}>{value}</DefaultComponent>;
+  });
+}
 
 function _getSlices(text: string, tags: Array<Tag>): Array<Slice> {
 
