@@ -1,5 +1,4 @@
 // @flow
-import React from 'react';
 
 type Options = {
   tags: Array<Tag>
@@ -7,7 +6,7 @@ type Options = {
 
 type Tag = {
   pattern: RegExp,
-  component: (Array<string> | string) => React.Element<any> 
+  component: (Array<string> | string) => any
 }
 
 type Slice = {
@@ -26,16 +25,12 @@ type Range = {
   end: number
 };
 
-function DefaultComponent({ children }){
-  return <span>{children}</span>;
-}
-
-function withTags(text: string, { tags }: Options): Array<React.Element<any>> {
+function withTags(text: string, { tags }: Options): Array<any> {
   return _getSlices(text, tags).map(({ value, tag }, index) => {
     if(tag !== undefined){
       return tags[tag].component(value, index);
     }
-    return <DefaultComponent key={index}>{value}</DefaultComponent>;
+    return value;
   });
 }
 
