@@ -1,6 +1,6 @@
 ## Example using
 
-```
+```js
 import withTags from 'withTags';
 
 class App extends Component {
