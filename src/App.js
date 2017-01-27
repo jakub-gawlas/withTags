@@ -4,13 +4,16 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import withTags from './withTags';
 
-const Tag = styled.span`
-  color: red;
+import User from './User';
+
+const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
 `;
 
-const User = styled.span`
-  background: black;
-  color: white;
+const Tag = styled.span`
+  color: red;
 `;
 
 const Input = styled.input`
@@ -23,7 +26,7 @@ const Input = styled.input`
 const Text = styled.p`
   font-size: 1.5rem;
   margin: 0.5rem;
-  margin-top: 1rem;
+  margin-top: 5rem;
 `;
 
 class App extends Component {
@@ -56,10 +59,10 @@ class App extends Component {
       ]
     };
     return (
-      <div>
+      <Container>
         <Input type="text" value={text} onChange={this._onChangeInput} />
         <Text>{withTags(text, options)}</Text>
-      </div>
+      </Container>
     );
   }
 }
