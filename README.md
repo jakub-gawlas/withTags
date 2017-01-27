@@ -1,4 +1,4 @@
-## Example used
+## Example using
 
 ```
 import withTags from 'withTags';
