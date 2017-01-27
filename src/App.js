@@ -13,9 +13,36 @@ const User = styled.span`
   color: white;
 `;
 
+const Input = styled.input`
+  box-sizing: border-box;
+  width: 100%;
+  font-size: 1.5rem;
+  padding: 0.5rem;
+`;
+
+const Text = styled.p`
+  font-size: 1.5rem;
+  margin: 0.5rem;
+  margin-top: 1rem;
+`;
+
 class App extends Component {
+
+  state = {
+    text: 'Hi @all! #foo and #bar etc. @Kuba'
+  }
+
+  _onChangeInput = (event: Event) => {
+    const target = event.target;
+    if(target instanceof HTMLInputElement){
+      this.setState({
+        text: target.value
+      });
+    }
+  }
+
   render() {
-    const text = 'Hi @all! #foo and #bar etc. @Kuba';
+    const { text } = this.state;
     const options = {
       tags: [
         {
@@ -30,7 +57,8 @@ class App extends Component {
     };
     return (
       <div>
-        {withTags(text, options)}
+        <Input type="text" value={text} onChange={this._onChangeInput} />
+        <Text>{withTags(text, options)}</Text>
       </div>
     );
   }
