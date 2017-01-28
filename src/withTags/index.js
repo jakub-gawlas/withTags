@@ -1,29 +1,7 @@
 // @flow
+import type { Options, Tag, Slice } from './types';
 
-type Options = {
-  tags: Array<Tag>
-};
-
-type Tag = {
-  pattern: RegExp,
-  component: (Array<string> | string) => any
-}
-
-type Slice = {
-  value: string | Array<string>,
-  range: Range,
-  tag?: number
-}
-
-type Match = {
-  value: Array<string>,
-  range: Range
-}
-
-type Range = {
-  start: number,
-  end: number
-};
+import getMatches from './getMatches';
 
 function withTags(text: string, { tags }: Options): Array<any> {
   return _getSlices(text, tags).map(({ value, tag }, index) => {
@@ -51,8 +29,6 @@ function _getSlices(text: string, tags: Array<Tag>): Array<Slice> {
   const lastIndex = matchesSlices.length - 1;
 
   matchesSlices.reduce((prevSlice, slice, index) => {
-
-    const previousSlice = prevSlice;
 
     if(prevSlice && !_isSlicesOverlap(prevSlice, slice)){
       const range = {
@@ -93,25 +69,10 @@ function _sortByRange(sliceFirst: Slice, sliceSecond: Slice){
 
 function _getMatchesSlices(text: string, tags: Array<Tag>): Array<Slice> {
   return tags.reduce((result: Array<Slice>, { pattern }, index) => {
-    const matches = _getMatches(pattern, text);
+    const matches = getMatches(pattern, text);
     const slices = matches.map((match) => ({ ...match, tag: index }));
     return [...result, ...slices];
   }, []);
-}
-
-function _getMatches(pattern: RegExp, text: string): Array<Match>{
-  let match;
-  const matches = [];
-  while(match = pattern.exec(text)){
-    matches.push({
-      value: match,
-      range: {
-        start: match.index,
-        end: match.index + (match[0].length - 1)
-      }
-    });
-  }
-  return matches;
 }
 
 export default withTags;
